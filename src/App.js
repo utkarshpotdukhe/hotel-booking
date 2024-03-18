@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import Hotels from "./Hotels";
+import FiltersList from "./FiltersList";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = { selectedFilters: [] };
+
+  toggleFilter = (clickedFilterKey) => {
+    const { selectedFilters } = this.state;
+    let newFilters;
+
+    if (selectedFilters.includes(clickedFilterKey)) {
+      newFilters = selectedFilters.filter(
+        (selectedFilter) => selectedFilter !== clickedFilterKey
+      );
+    } else {
+      newFilters = selectedFilters.concat(clickedFilterKey);
+    }
+
+    this.setState({ selectedFilters: newFilters });
+  };
+
+  render() {
+    const { selectedFilters } = this.state;
+    return (
+      <div className="App">
+        <FiltersList
+          selectedFilters={selectedFilters}
+          toggleFilter={this.toggleFilter}
+        />
+        <Hotels selectedFilters={selectedFilters} />
+      </div>
+    );
+  }
 }
 
 export default App;
